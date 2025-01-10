@@ -17,7 +17,7 @@ module Sprig::Reap
     end
 
     def exists?
-      File.exists?(path)
+      File.exist?(path)
     end
 
     def write
