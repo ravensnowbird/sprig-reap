@@ -16,8 +16,10 @@ module Sprig::Reap
   extend Logging
 
   class << self
+    attr_accessor :configuration
+
     def reap(input = {})
-      options = input.to_hash
+      options = input.to_h
 
       configure do |config|
         config.target_env       = options[:target_env]       || options['TARGET_ENV']
@@ -34,12 +36,8 @@ module Sprig::Reap
     end
 
     def clear_config
-      @@configuration = nil
+      self.configuration = nil
     end
-
-    private
-
-    cattr_reader :configuration
 
     delegate :target_env,
              :models,
@@ -48,8 +46,10 @@ module Sprig::Reap
              :omit_empty_attrs,
              to: :configuration
 
+    private
+
     def configuration
-      @@configuration ||= Configuration.new
+      @configuration ||= Configuration.new
     end
 
     def configure
@@ -57,3 +57,4 @@ module Sprig::Reap
     end
   end
 end
+
